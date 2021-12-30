@@ -59,7 +59,7 @@ class BubbleSliderState extends State<BubbleSlider>
         vsync: this,
         duration: const Duration(milliseconds: 600));
     valueAnimationController.addListener(() {
-      if(valueAnimationController.isCompleted){
+      if (valueAnimationController.isCompleted) {
         valueAnimationController.reverse();
       }
     });
