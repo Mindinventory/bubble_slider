@@ -190,20 +190,23 @@ class _BalloonSliderRender extends RenderBox {
             trackRect.left + _value * trackRect.width, trackRect.center.dy));
     canvas.drawCircle(thumbRect.center,
         _thumbRadius + _state.valueAnimationController.value, _thumbPaint);
-    if(_state.bubblesList.isNotEmpty) {
+    if (_state.bubblesList.isNotEmpty) {
       _valueTextPainter
-      ..text = TextSpan(
-          text: _state.bubblesList.last.label.toString(),
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: _state.valueAnimationController.value))
-      ..textDirection = TextDirection.ltr
-      ..layout();
-    _valueTextPainter.paint(
-      canvas,
-      Offset((trackRect.left + _value * trackRect.width) - (_state.valueAnimationController.value/2), trackRect.center.dy-(_state.valueAnimationController.value/2)),
-    );
+        ..text = TextSpan(
+            text: _state.bubblesList.last.label.toString(),
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: _state.valueAnimationController.value))
+        ..textDirection = TextDirection.ltr
+        ..layout();
+      _valueTextPainter.paint(
+        canvas,
+        Offset(
+            (trackRect.left + _value * trackRect.width) -
+                (_state.valueAnimationController.value / 2),
+            trackRect.center.dy - (_state.valueAnimationController.value / 2)),
+      );
     }
 
     /// This is indicates the bubble painter
@@ -281,7 +284,7 @@ class _BalloonSliderRender extends RenderBox {
     canvas.restore();
   }
 
-  // This is called when user start drag.
+  /// This is called when user start drag.
   void _onDragStart(DragStartDetails details) {
     if (!_active) {
       if (onChangeStart != null) onChangeStart!(_value);
@@ -311,8 +314,10 @@ class _BalloonSliderRender extends RenderBox {
     }
   }
 
+  /// This is called when slider drag end.
   void _onDragEnd(DragEndDetails details) => _handleDragEnd();
 
+  /// This is called when drag cancel.
   void _onDragCancel() => _handleDragEnd();
 
   void _handleDragEnd() {
