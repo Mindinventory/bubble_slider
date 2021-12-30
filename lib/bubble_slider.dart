@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'bubble_slider_widget.dart';
 
-// Bubble slider widget
+/// Bubble slider widget
 class BubbleSlider extends StatefulWidget {
   const BubbleSlider(
       {Key? key,
@@ -18,22 +17,22 @@ class BubbleSlider extends StatefulWidget {
       : assert(value >= 0.0 && value <= 100.0),
         super(key: key);
 
-  //This is for value of slider and allow value from 0 to 100
+  ///This is for value of slider and allow value from 0 to 100
   final double value;
 
-  //This is for bubble hide and show
+  ///This is for bubble hide and show
   final bool isBubbleVisible;
 
-  //This function called when user start drag of slider.
+  ///This function called when user start drag of slider.
   final ValueChanged<double>? onChangeStart;
 
-  //This function called when value change of slider.
+  ///This function called when value change of slider.
   final ValueChanged<double> onChanged;
 
-  //This function called when user end drag of slider.
+  ///This function called when user end drag of slider.
   final ValueChanged<double> onChangeEnd;
 
-  //This indicates the color of slider as well as bubbles.
+  ///This indicates the color of slider as well as bubbles.
   final Color color;
 
   @override
@@ -58,7 +57,7 @@ class BubbleSliderState extends State<BubbleSlider>
         lowerBound: 0,
         upperBound: 20,
         vsync: this,
-        duration: const Duration(seconds: 1));
+        duration: const Duration(milliseconds: 600));
     valueAnimationController.addListener(() {
       if(valueAnimationController.isCompleted){
         valueAnimationController.reverse();
