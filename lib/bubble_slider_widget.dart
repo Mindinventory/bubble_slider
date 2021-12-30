@@ -172,19 +172,19 @@ class _BalloonSliderRender extends RenderBox {
     Canvas canvas = context.canvas;
     canvas.save();
 
-    //This is indicates the track painter
+    ///This is indicates the track painter
     Rect trackRect = _getTrackRect(offset: offset);
     canvas.drawRRect(
         RRect.fromRectAndRadius(trackRect, const Radius.circular((10))),
         _trackPaint);
 
-    //This is indicates the progress of slider
+    ///This is indicates the progress of slider
     Rect progressRect = _getTrackRect(offset: offset, progress: _value);
     canvas.drawRRect(
         RRect.fromRectAndRadius(progressRect, const Radius.circular(10)),
         _progressPaint);
 
-    // This is indicates the thumb painter
+    /// This is indicates the thumb painter
     Rect thumbRect = _getThumbRect(
         offset: Offset(
             trackRect.left + _value * trackRect.width, trackRect.center.dy));
@@ -206,7 +206,7 @@ class _BalloonSliderRender extends RenderBox {
     );
     }
 
-    // This is indicates the bubble painter
+    /// This is indicates the bubble painter
     _preBalloonOffsetX ??= thumbRect.center.dx;
 
     /// babbles position set for curve.
@@ -236,7 +236,7 @@ class _BalloonSliderRender extends RenderBox {
       canvas.scale(_bubbleScale, _bubbleScale);
     }
 
-    //draw bubble
+    ///draw bubble
     if (showBubble) {
       for (int i = 0; i < _state.animationControllers.length; i++) {
         final radius = _state.bubblesList[i].radius / 2;
@@ -298,7 +298,7 @@ class _BalloonSliderRender extends RenderBox {
     }
   }
 
-  // This is called when slider values change.
+  /// This is called when slider values change.
   void _onDragUpdate(DragUpdateDetails details) {
     if (_active) {
       Rect _trackRect = _getTrackRect();
