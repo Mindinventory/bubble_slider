@@ -13,9 +13,7 @@
 
 This package support a slider customize UI with bubble animation. Which is includes a onDragStart(), onDragEnd() as well as onChnage() methods callback through user get the values as per the requirements.
 
-<a href="" style="pointer-events: stroke;" target="_blank">
-<img src="https://github.com/Mindinventory/bubble_slider/blob/master/assets/bubble_slider.gif">
-</a>
+![Bubble Slider](https://github.com/Mindinventory/bubble_slider/blob/master/assets/bubble_slider.gif)
 
 ## Usage
 
