@@ -21,6 +21,9 @@ https://user-images.githubusercontent.com/85343307/147735932-a6183ce1-63e1-4324-
 ### Example
     BubbleSlider(
         value: _value,
+        bubbleSize: BubbleSize.medium,
+        thumbRadiusSpeed: ThumbRadiusSpeed.veryFast,
+        bubblesSpeed: BubbleSpeed.veryFast,
         isBubbleVisible: true,
         onChanged: (val) {
         _value = val;
@@ -43,7 +46,16 @@ This is also callback. Through user can get the current value of slider as well 
 ## Optional parameters
 
 ##### Color:
-This is for user can set the color for slider ans bubbles.
+This is for user can set the color for slider and bubbles.
+
+##### bubbleSize:
+This is for user can set the bubbles size for slider.
+
+##### thumbRadiusSpeed:
+This is for user can set the animation speed for thumb animation for slider.
+
+##### bubblesSpeed:
+This is for user can set the animation speed for bubbles for slider.
 
 ##### isBubbleVisible:
 This is for disable the bubble animation.
