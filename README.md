@@ -1,4 +1,3 @@
-<a href="https://www.mindinventory.com/?utm_source=gthb&utm_medium=repo&utm_campaign=swift-ui-libraries"><img src="https://github.com/Sammindinventory/MindInventory/blob/main/Banner.png"></a>
 # bubble_slider
 
 <a href="https://developer.android.com" style="pointer-events: stroke;" target="_blank">
@@ -14,7 +13,9 @@
 
 This package support a slider customize UI with bubble animation. Which is includes a onDragStart(), onDragEnd() as well as onChnage() methods callback through user get the values as per the requirements.
 
-https://user-images.githubusercontent.com/85343307/147735932-a6183ce1-63e1-4324-9233-9e9a2de63066.mp4
+<a href="" style="pointer-events: stroke;" target="_blank">
+<img src="https://github.com/Mindinventory/bubble_slider/blob/master/assets/bubble_slider.gif">
+</a>
 
 ## Usage
 
