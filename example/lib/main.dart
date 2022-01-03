@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BubbleDemo(),
+      home: const BubbleDemo(),
     );
   }
 }
 
 class BubbleDemo extends StatefulWidget {
-  BubbleDemo({Key? key}) : super(key: key);
+  const BubbleDemo({Key? key}) : super(key: key);
 
   @override
   BubbleDemoState createState() => BubbleDemoState();
@@ -33,7 +33,7 @@ class BubbleDemoState extends State<BubbleDemo> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Bubble Slider',
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
@@ -46,6 +46,9 @@ class BubbleDemoState extends State<BubbleDemo> with TickerProviderStateMixin {
             height: 20,
             child: BubbleSlider(
               value: _value,
+              bubbleSize: BubbleSize.medium,
+              thumbRadiusSpeed: ThumbRadiusSpeed.veryFast,
+              bubblesSpeed: BubbleSpeed.veryFast,
               isBubbleVisible: true,
               onChanged: (val) {
                 _value = val;
