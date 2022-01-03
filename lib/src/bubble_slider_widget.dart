@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../bubble_slider.dart';
 import 'bubble_slider.dart';
 
 ///This class is for render bubbles and slider from custom painter.
