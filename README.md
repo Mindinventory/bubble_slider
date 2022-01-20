@@ -34,7 +34,7 @@ This package support a slider customize UI with bubble animation. Which is inclu
 ### Required parameters
 
 ##### Value:
-This is for the set value of slider between 0 to 100.
+This is for the set value of slider between min or 0 to max or 100.
 
 ##### onChanged(double val):
 This is a callback. Through user can get the current value of slider.
@@ -43,6 +43,12 @@ This is a callback. Through user can get the current value of slider.
 This is also callback. Through user can get the current value of slider as well as user can track the slider is deactivate at the moment.
 
 ## Optional parameters
+
+##### min:
+This is for the minimum value of slider. If min is null then the default value 0.0 is used.
+
+##### max:
+This is for maximum value of slider. If max is null then the default value 100.0 is used.
 
 ##### Color:
 This is for user can set the color for slider and bubbles.

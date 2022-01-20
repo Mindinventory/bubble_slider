@@ -18,3 +18,7 @@
 ## 0.0.5
 
 * Update the readme file as well as format files.
+
+## 0.0.6
+
+* Added the min and max limit for the bubble slider.
