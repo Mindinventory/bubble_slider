@@ -1,6 +1,6 @@
 name: bubble_slider
 description: This package support a slider customize UI with bubble animation. The slider value would be 0 to 100.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/Mindinventory/animated_slider
 
 environment:

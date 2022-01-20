@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:math' as math;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +10,8 @@ import 'bubble_slider.dart';
 ///This class is for render bubbles and slider from custom painter.
 class BubbleSliderWidget extends LeafRenderObjectWidget {
   final double value;
+  final double min;
+  final double max;
   final bool showBubble;
   final ValueChanged<double>? onChangeStart;
   final ValueChanged<double> onChanged;
@@ -20,6 +23,8 @@ class BubbleSliderWidget extends LeafRenderObjectWidget {
   const BubbleSliderWidget({
     Key? key,
     required this.value,
+    required this.min,
+    required this.max,
     required this.onChanged,
     required this.state,
     this.showBubble = false,
@@ -33,6 +38,8 @@ class BubbleSliderWidget extends LeafRenderObjectWidget {
   RenderObject createRenderObject(BuildContext context) {
     return _BalloonSliderRender(
         value: value,
+        min: min,
+        max: max,
         showRope: showBubble,
         onChangeStart: onChangeStart,
         onChanged: onChanged,
@@ -47,6 +54,8 @@ class BubbleSliderWidget extends LeafRenderObjectWidget {
       BuildContext context, _BalloonSliderRender renderObject) {
     renderObject
       ..value = value
+      ..min = min
+      ..max = max
       ..showBubble = showBubble
       ..onChangeStart = onChangeStart
       ..onChanged = onChanged
@@ -60,6 +69,8 @@ class BubbleSliderWidget extends LeafRenderObjectWidget {
 class _BalloonSliderRender extends RenderBox {
   _BalloonSliderRender({
     required double value,
+    required double min,
+    required double max,
     required Color color,
     required TextDirection textDirection,
     required BubbleSliderState state,
@@ -67,8 +78,13 @@ class _BalloonSliderRender extends RenderBox {
     this.onChangeStart,
     this.onChangeEnd,
     bool showRope = false,
-  })  : assert(value >= 0.0 && value <= 1.0),
+  })  : assert(
+          value >= min && value <= max,
+          'value should be between the min or 0.0 to max or 100.0',
+        ),
         _value = value,
+        _min = min,
+        _max = max,
         _color = color,
         _showRope = showRope,
         _textDirection = textDirection,
@@ -89,11 +105,33 @@ class _BalloonSliderRender extends RenderBox {
   double _value;
 
   set value(double val) {
-    assert(val >= 0.0 && val <= 1.0);
+    assert(val >= _min && val <= _max);
     if (val == _value) {
       return;
     }
     _value = val;
+    markNeedsPaint();
+  }
+
+  double get min => _min;
+  double _min;
+
+  set min(double val) {
+    if (val == _min) {
+      return;
+    }
+    _min = val;
+    markNeedsPaint();
+  }
+
+  double get max => _max;
+  double _max;
+
+  set max(double val) {
+    if (val == _max) {
+      return;
+    }
+    _max = val;
     markNeedsPaint();
   }
 
@@ -180,15 +218,20 @@ class _BalloonSliderRender extends RenderBox {
         _trackPaint);
 
     ///This is indicates the progress of slider
-    Rect progressRect = _getTrackRect(offset: offset, progress: _value);
+    Rect progressRect = _getTrackRect(
+      offset: offset,
+      progress: ((_value - _min) / (_max - _min)),
+    );
     canvas.drawRRect(
         RRect.fromRectAndRadius(progressRect, const Radius.circular(10)),
         _progressPaint);
 
     /// This is indicates the thumb painter
     Rect thumbRect = _getThumbRect(
-        offset: Offset(
-            trackRect.left + _value * trackRect.width, trackRect.center.dy));
+      offset: Offset(
+          trackRect.left + ((_value - _min) / (_max - _min)) * trackRect.width,
+          trackRect.center.dy),
+    );
     canvas.drawCircle(thumbRect.center,
         _thumbRadius + _state.valueAnimationController.value, _thumbPaint);
     if (_state.bubblesList.isNotEmpty) {
@@ -204,7 +247,8 @@ class _BalloonSliderRender extends RenderBox {
       _valueTextPainter.paint(
         canvas,
         Offset(
-            (trackRect.left + _value * trackRect.width) -
+            (trackRect.left +
+                    ((_value - _min) / (_max - _min)) * trackRect.width) -
                 (_state.valueAnimationController.value / 2),
             trackRect.center.dy - (_state.valueAnimationController.value / 2)),
       );
@@ -222,12 +266,12 @@ class _BalloonSliderRender extends RenderBox {
     double diff = thumbRect.center.dx - bubbleRect.center.dx;
     var bubbleOffsetX = _preBalloonOffsetX! + diff / 10.0;
     if (diff > 0) {
-      bubbleOffsetX = min(bubbleOffsetX, targetOffset);
+      bubbleOffsetX = math.min(bubbleOffsetX, targetOffset);
     } else {
-      bubbleOffsetX = max(bubbleOffsetX, targetOffset);
+      bubbleOffsetX = math.max(bubbleOffsetX, targetOffset);
     }
     double bubbleOffsetY = thumbRect.center.dy - bubbleRect.center.dy;
-    double angle = bubbleOffsetY != 0 ? -atan(diff / bubbleOffsetY) : 0;
+    double angle = bubbleOffsetY != 0 ? -math.atan(diff / bubbleOffsetY) : 0;
     _preBalloonOffsetX = bubbleOffsetX;
 
     canvas.translate(bubbleRect.center.dx, bubbleRect.center.dy);
@@ -293,8 +337,8 @@ class _BalloonSliderRender extends RenderBox {
       _currentDragValue =
           ((globalToLocal(details.globalPosition).dx - _trackRect.left) /
               _trackRect.width);
-      _value = _currentDragValue.clamp(0.0, 1.0);
-      onChanged(_value * 100);
+      _value = _currentDragValue.clamp(0.0, 1.0) * (_max - _min) + _min;
+      onChanged(_value);
 
       _state.animationEndTimer?.cancel();
       _state.animationController.repeat();
@@ -307,11 +351,11 @@ class _BalloonSliderRender extends RenderBox {
     if (_active) {
       Rect _trackRect = _getTrackRect();
       _currentDragValue += details.primaryDelta! / _trackRect.width;
-      final progress = _currentDragValue.clamp(0.0, 1.0);
+      final progress = _currentDragValue.clamp(0.0, 1.0) * (_max - _min) + _min;
       if (_value != progress) {
         _value = progress;
       }
-      onChanged(_value * 100);
+      onChanged(_value);
     }
   }
 

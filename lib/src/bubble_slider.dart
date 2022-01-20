@@ -11,17 +11,30 @@ class BubbleSlider extends StatefulWidget {
       required this.value,
       required this.onChanged,
       required this.onChangeEnd,
+      this.min = 0.0,
+      this.max = 100.0,
       this.isBubbleVisible = false,
       this.bubblesSpeed = BubbleSpeed.medium,
       this.thumbRadiusSpeed = ThumbRadiusSpeed.medium,
       this.bubbleSize = BubbleSize.medium,
       this.onChangeStart,
       this.color = Colors.blue})
-      : assert(value >= 0.0 && value <= 100.0),
+      : assert(
+          value >= min && value <= max,
+          'value should be between the min or 0.0 to max or 100.0',
+        ),
         super(key: key);
 
-  ///This is for value of slider and allow value from 0 to 100
+  ///This is for value of slider and allow value from min or 0 to max or 100
   final double value;
+
+  ///This is for the minimum value of slider
+  /// If min is null then the default value 0.0 is used
+  final double min;
+
+  ///This is for maximum value of slider
+  /// If max is null then the default value 100.0 is used
+  final double max;
 
   ///This is for bubbles animation speed.
   final int bubblesSpeed;
@@ -58,7 +71,7 @@ class BubbleSliderState extends State<BubbleSlider>
   Timer? animationEndTimer;
   List<BubbleAnimation> bubblesList = [];
   List<AnimationController> animationControllers = [];
-  List<int> vals = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  List<int> vals = [];
 
   @override
   void initState() {
@@ -75,6 +88,12 @@ class BubbleSliderState extends State<BubbleSlider>
         valueAnimationController.reverse();
       }
     });
+
+    /// Generating the bubble vals
+    vals.clear();
+    for (int val = widget.min.toInt(); val <= widget.max.toInt(); val += 10) {
+      vals.add(val);
+    }
   }
 
   @override
@@ -91,7 +110,9 @@ class BubbleSliderState extends State<BubbleSlider>
   @override
   Widget build(BuildContext context) {
     return BubbleSliderWidget(
-      value: widget.value / 100,
+      value: widget.value,
+      min: widget.min,
+      max: widget.max,
       showBubble: widget.isBubbleVisible,
       onChangeStart: widget.onChangeStart,
       onChanged: (val) {

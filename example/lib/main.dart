@@ -28,7 +28,10 @@ class BubbleDemo extends StatefulWidget {
 }
 
 class BubbleDemoState extends State<BubbleDemo> with TickerProviderStateMixin {
-  double _value = 50.0;
+  double _value = 100.0;
+  final double _min = 50.0;
+  final double _max = 150.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +49,8 @@ class BubbleDemoState extends State<BubbleDemo> with TickerProviderStateMixin {
             height: 20,
             child: BubbleSlider(
               value: _value,
+              min: _min,
+              max: _max,
               bubbleSize: BubbleSize.medium,
               thumbRadiusSpeed: ThumbRadiusSpeed.veryFast,
               bubblesSpeed: BubbleSpeed.veryFast,
